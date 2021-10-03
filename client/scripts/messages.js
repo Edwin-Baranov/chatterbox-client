@@ -5,31 +5,34 @@
 var Messages = {
 
   // TODO: Define how you want to store your messages.
-  _data: [],
+  _data: {},
 
   add: function(message, callback) {
-    Messages.setDefault(message);
-    Messages._data.unshift(message);
+    Messages._data[message.message_id] = Messages.setDefault(message);
     console.log(Messages._data);
-    callback(Messages._data);
+    callback();
   },
 
   // TODO: Define methods which allow you to retrieve from,
   // add to, and generally interact with the messages.
   get: function() {
-    return Messages._data;
+    return Object.values(Messages._data);
   },
 
   update: function(data, callback) {
-    Messages._data = data;
-    _.each(Messages._data, Messages.setDefault);
-    callback(Messages._data);
+    _.each(data, (message) => {
+      Messages._data[message.message_id] = Messages.setDefault(message);
+    });
+
+    callback();
   },
 
   setDefault: function(message) {
     message.text = message.text || '';
     message.username = message.username || '';
     message.roomname = message.roomname || 'lobby';
+
+    return message;
   }
 
 };

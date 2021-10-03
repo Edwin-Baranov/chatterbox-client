@@ -7,22 +7,24 @@ var Friends = {
 
   _data: new Set(),
 
-  // TODO: Define methods which allow you to add, toggle,
-  // and check the friendship status of other users.
+  add: function(username) {
+    Friends._data.add(username);
+  },
 
-  toggleStatus: function(username) {
+  get: function() {
+    return [ ... Friends._data];
+  },
+
+  checkFriend: function(username) {
+    return Friends._data.has(username);
+  },
+
+  toggleStatus: function(username, callback = () => {}) {
     if (Friends._data.has(username)) {
       Friends._data.delete(username);
     } else {
       Friends._data.add(username);
     }
-  },
-
-  add: function(username) {
-    Friends._data.add(username);
-  },
-
-  checkFriend: function(username) {
-    return Friends._data.has(username);
+    callback();
   }
 };

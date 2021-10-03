@@ -8,8 +8,7 @@ var FormView = {
   $message: $('#message'),
 
   initialize: function() {
-    FormView.$form.on('submit', FormView.handleSubmit);
-    //FormView.$form.submit(FormView.handleSubmit);
+    FormView.$form.submit(FormView.handleSubmit);
   },
 
   handleSubmit: function(event) {
@@ -20,7 +19,6 @@ var FormView = {
     // Make this function actually send a message to the Parse API.
     //var textMessage = FormView.$message.text();
     Parse.create(FormView.createMessage(), (data) => {
-      console.log(data);
       Messages.add(data[0], MessagesView.render);
     });
   },

@@ -7,28 +7,31 @@ var Rooms = {
   // TODO: Define how you want to store the list of rooms
   _data: new Set(),
 
-  _selected: null,
+  _selected: 'lobby',
 
 
   // TODO: Define methods which allow you to add rooms, update the list,
   // mark a room as selected, etc.
 
-  update: function() {
-    var temp = Messages.get();
-    _.each(Messages.get(), function(message) {
-      if (typeof message.roomname === 'string' && message.roomname !== '') {
-        Rooms.add(message.roomname);
-      }
-    });
-  },
 
-  add: function(value) {
+  add: function(value, callback = () => {}) {
     Rooms._data.add(value);
     Rooms._selected = value;
+    callback();
   },
 
   get: function() {
-    return Array.from(Rooms._data);
-  }
+    return [... Rooms._data];
+  },
 
+  isSelected: function (roomname = 'lobby') {
+    return roomname === Rooms._selected;
+  },
+
+  update: function(messages, callback = () => {}) {
+    _.each(messages, function(message) {
+      Rooms.add(message.roomname);
+      callback();
+    });
+  }
 };

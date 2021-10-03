@@ -25,18 +25,15 @@ var App = {
   },
 
   fetch: function(callback = ()=>{}) {
-    Parse.readAll((data) => { //[{}, {}, {}]
+    Parse.readAll((data) => {
       // examine the response from the server request:
       console.log(data);
 
       Messages.update(data, MessagesView.render);
-      //Rooms.add('default');
+
       Rooms.update(data, RoomsView.render);
-      //MessagesView.render();
-      //RoomsView.render();
+
       callback();
-      // TODO: Use the data to update Messages and Rooms
-      // and re-render the corresponding views.
     });
   },
 

@@ -7,8 +7,6 @@ var RoomsView = {
   $select: $('#rooms select'),
 
   initialize: function() {
-    // TODO: Perform any work which needs to be done
-    // when this view loads.
     RoomsView.$button.click(RoomsView.handleClick);
     RoomsView.$select.change(RoomsView.handleChange);
   },
@@ -20,21 +18,22 @@ var RoomsView = {
   },
 
   renderRoom: function(roomname) {
-    // TODO: Render out a single room.
-    var $room = $(`<option value="${roomname.toLowerCase()}">`);
-    $room.text(roomname);
+    var $room = $('<option>').val(roomname).text(roomname);
     RoomsView.$select.append($room);
   },
 
   handleChange: function(event) {
-    // TODO: Handle a user selecting a different room.
+    Rooms._selected = RoomsView.$select.val();
+    MessagesView.render();
   },
 
   handleClick: function(event) {
-    // TODO: Handle the user clicking the "Add Room" button.
     var roomName = prompt('Please enter a room name:');
-    if (roomName !== null || roomName !== '') {
-      Rooms.add(roomName);
+    if (roomname) {
+      Rooms.add(roomName, () => {
+        RoomsView.render();
+        MessagesView.render();
+      });
     }
   }
 
